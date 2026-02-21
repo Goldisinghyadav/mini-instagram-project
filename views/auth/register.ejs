@@ -1,0 +1,47 @@
+<%- include('../partials/header') %>
+    <%- include('../partials/navbar') %>
+
+        <main class="auth-main">
+            <div class="auth-card">
+                <div class="auth-logo">
+                    <span class="auth-logo-icon">📸</span>
+                    <h1 class="auth-logo-text">Pixgram</h1>
+                    <p class="auth-tagline">Sign up to see photos from friends.</p>
+                </div>
+
+                <form action="/register" method="POST" class="auth-form" novalidate>
+
+                    <div class="form-group">
+                        <input type="email" name="email" class="form-input" placeholder="Email address"
+                            autocomplete="email" required />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" name="username" class="form-input" placeholder="Username"
+                            autocomplete="username" pattern="[a-zA-Z0-9_.]+" required />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" name="password" class="form-input" placeholder="Password (min 6 chars)"
+                            autocomplete="new-password" minlength="6" required />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" name="confirmPassword" class="form-input" placeholder="Confirm password"
+                            autocomplete="new-password" required />
+                    </div>
+
+                    <button type="submit" class="btn-submit">Create Account</button>
+
+                    <p class="auth-terms">
+                        By signing up, you agree to our Terms of Service and Privacy Policy.
+                    </p>
+                </form>
+
+                <div class="auth-switch">
+                    Already have an account? <a href="/login">Sign in</a>
+                </div>
+            </div>
+        </main>
+
+        <%- include('../partials/footer') %>

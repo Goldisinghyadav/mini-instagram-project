@@ -1,0 +1,39 @@
+<%- include('../partials/header') %>
+    <%- include('../partials/navbar') %>
+
+        <main class="form-main">
+            <div class="form-card">
+                <h2 class="form-title">Edit Post</h2>
+
+                <!-- Current image preview -->
+                <div class="edit-image-preview">
+                    <img src="<%= post.imagePath %>" alt="Post image" class="edit-preview-img" />
+                </div>
+
+                <form action="/posts/<%= post._id %>?_method=PUT" method="POST" class="upload-form">
+
+                    <div class="form-group">
+                        <label class="form-label" for="caption">Caption</label>
+                        <textarea name="caption" id="caption" class="form-input form-textarea"
+                            placeholder="Update your caption…" maxlength="500" required
+                            rows="3"><%= post.caption %></textarea>
+                        <span class="char-count" id="char-count">
+                            <%= post.caption.length %> / 500
+                        </span>
+                    </div>
+
+                    <button type="submit" class="btn-submit">Save Changes</button>
+                    <a href="/posts" class="btn-cancel">Cancel</a>
+                </form>
+            </div>
+        </main>
+
+        <script>
+            const captionEl = document.getElementById('caption');
+            const charCountEl = document.getElementById('char-count');
+            captionEl.addEventListener('input', () => {
+                charCountEl.textContent = `${captionEl.value.length} / 500`;
+            });
+        </script>
+
+        <%- include('../partials/footer') %>

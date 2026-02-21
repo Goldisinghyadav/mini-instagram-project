@@ -1,0 +1,111 @@
+<%- include('../partials/header') %>
+    <%- include('../partials/navbar') %>
+
+        <main class="feed-main">
+            <div class="feed-container">
+
+                <!-- Header row -->
+                <div class="feed-header">
+                    <h2 class="feed-title">Latest Posts</h2>
+                    <% if (currentUser) { %>
+                        <a href="/posts/create" class="btn-primary">+ Share Photo</a>
+                        <% } %>
+                </div>
+
+                <% if (posts.length===0) { %>
+                    <div class="empty-state">
+                        <div class="empty-icon">📸</div>
+                        <h3>No posts yet</h3>
+                        <p>Be the first to share a photo!</p>
+                        <% if (currentUser) { %>
+                            <a href="/posts/create" class="btn-primary" style="margin-top:1rem">Upload Now</a>
+                            <% } else { %>
+                                <a href="/register" class="btn-primary" style="margin-top:1rem">Join Pixgram</a>
+                                <% } %>
+                    </div>
+                    <% } else { %>
+
+                        <!-- Post Grid -->
+                        <div class="posts-grid">
+                            <% posts.forEach(post=> { %>
+                                <article class="post-card">
+                                    <!-- Post Header -->
+                                    <div class="post-header">
+                                        <a href="/posts/profile/<%= post.user.username %>" class="post-user">
+                                            <span class="post-avatar-circle">
+                                                <%= post.user.username[0].toUpperCase() %>
+                                            </span>
+                                            <span class="post-username">
+                                                <%= post.user.username %>
+                                            </span>
+                                        </a>
+                                        <span class="post-time">
+                                            <%= new Date(post.createdAt).toLocaleDateString('en-US', { month: 'short' ,
+                                                day: 'numeric' }) %>
+                                        </span>
+                                    </div>
+
+                                    <!-- Post Image -->
+                                    <div class="post-image-wrap">
+                                        <img src="<%= post.imagePath %>" alt="<%= post.caption %>" class="post-image"
+                                            loading="lazy" />
+                                    </div>
+
+                                    <!-- Post Body -->
+                                    <div class="post-body">
+                                        <p class="post-caption">
+                                            <strong class="post-cap-user">
+                                                <%= post.user.username %>
+                                            </strong>
+                                            <%= post.caption %>
+                                        </p>
+
+                                        <!-- Actions — only shown to the post owner -->
+                                        <% if (currentUser && currentUser._id.toString()===post.user._id.toString()) {
+                                            %>
+                                            <div class="post-actions">
+                                                <a href="/posts/<%= post._id %>/edit"
+                                                    class="post-action-btn btn-edit">Edit</a>
+                                                <form action="/posts/<%= post._id %>?_method=DELETE" method="POST"
+                                                    class="delete-form" onsubmit="return confirm('Delete this post?')">
+                                                    <button type="submit"
+                                                        class="post-action-btn btn-delete">Delete</button>
+                                                </form>
+                                            </div>
+                                            <% } %>
+                                    </div>
+                                </article>
+                                <% }) %>
+                        </div>
+
+                        <!-- Pagination -->
+                        <% if (totalPages> 1) { %>
+                            <nav class="pagination">
+                                <% if (hasPrev) { %>
+                                    <a href="/posts?page=<%= currentPage - 1 %>" class="page-btn">Prev</a>
+                                    <% } %>
+
+                                        <% for (let i=1; i <=totalPages; i++) { %>
+                                            <a href="/posts?page=<%= i %>"
+                                                class="page-btn <%= i === currentPage ? 'active' : '' %>">
+                                                <%= i %>
+                                            </a>
+                                            <% } %>
+
+                                                <% if (hasNext) { %>
+                                                    <a href="/posts?page=<%= currentPage + 1 %>"
+                                                        class="page-btn">Next</a>
+                                                    <% } %>
+                            </nav>
+                            <% } %>
+
+                                <p class="page-info">
+                                    Page <%= currentPage %> of <%= totalPages %> &nbsp;·&nbsp;
+                                            Showing <%= posts.length %> of all posts
+                                </p>
+
+                                <% } %>
+            </div>
+        </main>
+
+        <%- include('../partials/footer') %>

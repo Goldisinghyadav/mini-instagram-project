@@ -1,0 +1,43 @@
+<nav class="navbar">
+    <div class="nav-container">
+        <a href="/posts" class="nav-brand">
+            <span class="brand-icon">📸</span>
+            <span class="brand-text">Pixgram</span>
+        </a>
+
+        <div class="nav-links">
+            <% if (currentUser) { %>
+                <a href="/posts" class="nav-link <%= title === 'Feed' ? 'active' : '' %>">Feed</a>
+                <a href="/posts/create" class="nav-link btn-primary">+ New Post</a>
+                <a href="/posts/profile" class="nav-link nav-user">
+                    <span class="user-avatar-circle">
+                        <%= currentUser.username[0].toUpperCase() %>
+                    </span>
+                    <%= currentUser.username %>
+                </a>
+                <a href="/logout" class="nav-link nav-logout">Logout</a>
+                <% } else { %>
+                    <a href="/login" class="nav-link">Sign In</a>
+                    <a href="/register" class="nav-link btn-primary">Join Free</a>
+                    <% } %>
+        </div>
+    </div>
+</nav>
+
+<!-- Flash Messages -->
+<% if (success && success.length> 0) { %>
+    <div class="flash flash-success">
+        <span>
+            <%= success[0] %>
+        </span>
+        <button onclick="this.parentElement.remove()" class="flash-close">x</button>
+    </div>
+    <% } %>
+        <% if (error && error.length> 0) { %>
+            <div class="flash flash-error">
+                <span>
+                    <%= error[0] %>
+                </span>
+                <button onclick="this.parentElement.remove()" class="flash-close">x</button>
+            </div>
+            <% } %>

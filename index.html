@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pixgram – Share Your World</title>
+  <meta name="description" content="Pixgram – a beautiful mini Instagram clone to share photos, connect with friends, and explore the world." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles/main.css" />
+</head>
+<body>
+
+  <!-- ====== SIDEBAR NAV (Desktop) ====== -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <span class="logo-icon">📸</span>
+      <span class="logo-text">Pixgram</span>
+    </div>
+
+    <nav class="sidebar-nav">
+      <button class="nav-item active" data-page="feed" id="nav-feed" onclick="navigate('feed')">
+        <span class="nav-icon">🏠</span>
+        <span class="nav-label">Home</span>
+      </button>
+      <button class="nav-item" data-page="explore" id="nav-explore" onclick="navigate('explore')">
+        <span class="nav-icon">🔍</span>
+        <span class="nav-label">Explore</span>
+      </button>
+      <button class="nav-item" id="nav-search-btn" onclick="openSearch()">
+        <span class="nav-icon">🔎</span>
+        <span class="nav-label">Search</span>
+      </button>
+      <button class="nav-item" data-page="profile" id="nav-profile" onclick="navigate('profile')">
+        <span class="nav-icon">👤</span>
+        <span class="nav-label">Profile</span>
+      </button>
+      <button class="nav-item" id="theme-toggle" onclick="toggleTheme()">
+        <span class="nav-icon" id="theme-icon">🌙</span>
+        <span class="nav-label">Dark Mode</span>
+      </button>
+    </nav>
+
+    <div class="sidebar-user" onclick="navigate('profile')">
+      <img src="https://i.pravatar.cc/40?img=12" alt="Your Avatar" class="sidebar-avatar" />
+      <div class="sidebar-user-info">
+        <span class="sidebar-username">you</span>
+        <span class="sidebar-name">Alex Rivera</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ====== MAIN CONTENT ====== -->
+  <main class="main-content" id="main-content">
+
+    <!-- ===== FEED PAGE ===== -->
+    <section class="page active" id="page-feed">
+      <div class="feed-layout">
+        <div class="feed-center">
+
+          <!-- Stories -->
+          <div class="stories-container" id="stories-container">
+            <!-- Injected by stories.js -->
+          </div>
+
+          <!-- Posts -->
+          <div class="posts-feed" id="posts-feed">
+            <!-- Injected by feed.js -->
+          </div>
+
+        </div>
+
+        <!-- Right Panel (Desktop) -->
+        <aside class="right-panel">
+          <div class="rp-profile-row" onclick="navigate('profile')">
+            <img src="https://i.pravatar.cc/56?img=12" alt="Your Avatar" class="rp-avatar" />
+            <div class="rp-user-info">
+              <span class="rp-username">you</span>
+              <span class="rp-name">Alex Rivera</span>
+            </div>
+            <button class="rp-switch-btn">Switch</button>
+          </div>
+          <div class="rp-suggestions-header">
+            <span>Suggestions for you</span>
+            <a href="#" class="rp-see-all" onclick="navigate('explore'); return false;">See all</a>
+          </div>
+          <div class="rp-suggestions" id="rp-suggestions">
+            <!-- Injected by feed.js -->
+          </div>
+          <div class="rp-footer">
+            <span>© 2026 Pixgram · Built with ❤️</span>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ===== EXPLORE PAGE ===== -->
+    <section class="page" id="page-explore">
+      <div class="explore-layout">
+        <div class="explore-header">
+          <h1 class="explore-title">Explore</h1>
+          <p class="explore-subtitle">Discover photos from the community</p>
+        </div>
+        <div class="explore-grid" id="explore-grid">
+          <!-- Injected by explore.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== PROFILE PAGE ===== -->
+    <section class="page" id="page-profile">
+      <div class="profile-layout" id="profile-layout">
+        <!-- Injected by profile.js -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ====== BOTTOM NAV (Mobile) ====== -->
+  <nav class="bottom-nav" id="bottom-nav">
+    <button class="bn-item active" data-page="feed" onclick="navigate('feed')">
+      <span>🏠</span>
+    </button>
+    <button class="bn-item" data-page="explore" onclick="navigate('explore')">
+      <span>🔍</span>
+    </button>
+    <button class="bn-item" onclick="openSearch()">
+      <span>🔎</span>
+    </button>
+    <button class="bn-item" data-page="profile" onclick="navigate('profile')">
+      <span>👤</span>
+    </button>
+    <button class="bn-item" onclick="toggleTheme()">
+      <span id="theme-icon-mobile">🌙</span>
+    </button>
+  </nav>
+
+  <!-- ====== STORY VIEWER MODAL ====== -->
+  <div class="modal-overlay" id="story-modal" style="display:none" onclick="closeStoryModal(event)">
+    <div class="story-viewer" id="story-viewer">
+      <div class="story-progress-bar" id="story-progress-bar">
+        <div class="story-progress-fill" id="story-progress-fill"></div>
+      </div>
+      <div class="story-header">
+        <img src="" alt="" id="story-user-avatar" class="story-user-avatar" />
+        <span class="story-username" id="story-username"></span>
+        <span class="story-time" id="story-time"></span>
+        <button class="story-close-btn" onclick="closeStoryModal()">✕</button>
+      </div>
+      <img src="" alt="Story" id="story-image" class="story-img" />
+      <button class="story-nav-btn story-prev-btn" id="story-prev-btn" onclick="prevStory()">❮</button>
+      <button class="story-nav-btn story-next-btn" id="story-next-btn" onclick="nextStory()">❯</button>
+    </div>
+  </div>
+
+  <!-- ====== POST DETAIL MODAL ====== -->
+  <div class="modal-overlay" id="post-modal" style="display:none" onclick="closePostModal(event)">
+    <div class="post-detail-card" id="post-detail-card">
+      <button class="post-detail-close" onclick="closePostModal()">✕</button>
+      <img src="" alt="" id="post-detail-image" class="post-detail-image" />
+      <div class="post-detail-right">
+        <div class="post-detail-user">
+          <img src="" alt="" id="post-detail-avatar" class="post-detail-avatar" />
+          <div>
+            <span id="post-detail-username" class="post-detail-username"></span>
+            <span id="post-detail-location" class="post-detail-location"></span>
+          </div>
+        </div>
+        <div class="post-detail-comments" id="post-detail-comments"></div>
+        <div class="post-detail-actions" id="post-detail-actions"></div>
+        <div class="post-detail-comment-input">
+          <input type="text" id="post-detail-comment-box" placeholder="Add a comment…" />
+          <button id="post-detail-post-btn" onclick="postDetailComment()">Post</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====== HEART BURST OVERLAY ====== -->
+  <div class="heart-burst" id="heart-burst" style="display:none">❤️</div>
+
+  <!-- ====== SEARCH MODAL ====== -->
+  <div class="modal-overlay" id="search-modal" style="display:none" onclick="closeSearch(event)">
+    <div class="search-card" onclick="event.stopPropagation()">
+      <div class="search-header">
+        <input type="text" id="search-input" placeholder="Search users, hashtags…" oninput="handleSearch(this.value)" autofocus />
+        <button onclick="closeSearch()">✕</button>
+      </div>
+      <div class="search-results" id="search-results"></div>
+    </div>
+  </div>
+
+  <!-- ====== TOAST NOTIFICATION ====== -->
+  <div class="toast" id="toast"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/stories.js"></script>
+  <script src="js/feed.js"></script>
+  <script src="js/explore.js"></script>
+  <script src="js/profile.js"></script>
+  <script src="js/search.js"></script>
+</body>
+</html>

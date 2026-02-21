@@ -1,0 +1,72 @@
+<%- include('../partials/header') %>
+    <%- include('../partials/navbar') %>
+
+        <main class="form-main">
+            <div class="form-card">
+                <h2 class="form-title">Share a New Photo</h2>
+
+                <% if (currentUser) { %>
+                    <p class="post-limit-notice">
+                        You have uploaded <strong>
+                            <%= currentUser.postsCount %> / 10
+                        </strong> posts.
+                    </p>
+                    <% } %>
+
+                        <form action="/posts/create" method="POST" enctype="multipart/form-data" class="upload-form">
+
+                            <!-- Image preview before upload -->
+                            <div class="preview-wrap" id="preview-wrap">
+                                <div class="preview-placeholder" id="preview-placeholder">
+                                    <span class="preview-icon">+</span>
+                                    <span>Click to select image</span>
+                                    <span class="preview-hint">JPG, PNG, GIF, WEBP · Max 5 MB</span>
+                                </div>
+                                <img id="preview-img" class="preview-img" alt="Preview" style="display:none" />
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="image">Photo</label>
+                                <input type="file" name="image" id="image" class="form-input file-input"
+                                    accept="image/*" required onchange="previewImage(event)" />
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="caption">Caption</label>
+                                <textarea name="caption" id="caption" class="form-input form-textarea"
+                                    placeholder="Write a caption… (max 500 characters)" maxlength="500" required
+                                    rows="3"></textarea>
+                                <span class="char-count" id="char-count">0 / 500</span>
+                            </div>
+
+                            <button type="submit" class="btn-submit">Share Photo</button>
+                            <a href="/posts" class="btn-cancel">Cancel</a>
+                        </form>
+            </div>
+        </main>
+
+        <script>
+            // Live image preview
+            function previewImage(event) {
+                const file = event.target.files[0];
+                const img = document.getElementById('preview-img');
+                const holder = document.getElementById('preview-placeholder');
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = e => {
+                    img.src = e.target.result;
+                    img.style.display = 'block';
+                    holder.style.display = 'none';
+                };
+                reader.readAsDataURL(file);
+            }
+
+            // Live character counter
+            const captionEl = document.getElementById('caption');
+            const charCountEl = document.getElementById('char-count');
+            captionEl.addEventListener('input', () => {
+                charCountEl.textContent = `${captionEl.value.length} / 500`;
+            });
+        </script>
+
+        <%- include('../partials/footer') %>

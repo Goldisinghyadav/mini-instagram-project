@@ -1,0 +1,76 @@
+<%- include('partials/header') %>
+    <%- include('partials/navbar') %>
+
+        <main class="profile-main">
+            <div class="profile-container">
+
+                <!-- Profile Header -->
+                <div class="profile-header">
+                    <div class="profile-avatar-big">
+                        <%= profileUser.username[0].toUpperCase() %>
+                    </div>
+                    <div class="profile-info">
+                        <div class="profile-username-row">
+                            <h1 class="profile-username">
+                                <%= profileUser.username %>
+                            </h1>
+                            <% if (currentUser && currentUser._id.toString()===profileUser._id.toString()) { %>
+                                <a href="/posts/create" class="btn-primary">+ New Post</a>
+                                <% } %>
+                        </div>
+                        <div class="profile-stats">
+                            <span class="stat"><strong>
+                                    <%= posts.length %>
+                                </strong> posts</span>
+                        </div>
+                        <% if (profileUser.bio) { %>
+                            <p class="profile-bio">
+                                <%= profileUser.bio %>
+                            </p>
+                            <% } %>
+                                <p class="profile-joined">
+                                    Joined <%= new Date(profileUser.createdAt).toLocaleDateString('en-US', {
+                                        month: 'long' , year: 'numeric' }) %>
+                                </p>
+                    </div>
+                </div>
+
+                <!-- Post Grid -->
+                <% if (posts.length===0) { %>
+                    <div class="empty-state">
+                        <div class="empty-icon">📸</div>
+                        <p>No posts yet.</p>
+                        <% if (currentUser && currentUser._id.toString()===profileUser._id.toString()) { %>
+                            <a href="/posts/create" class="btn-primary" style="margin-top:1rem">Upload your first
+                                post</a>
+                            <% } %>
+                    </div>
+                    <% } else { %>
+                        <div class="profile-grid">
+                            <% posts.forEach(post=> { %>
+                                <div class="profile-cell">
+                                    <img src="<%= post.imagePath %>" alt="<%= post.caption %>" loading="lazy" />
+                                    <div class="profile-cell-overlay">
+                                        <p>
+                                            <%= post.caption.length> 60 ? post.caption.substring(0, 60) + '…' :
+                                                post.caption %>
+                                        </p>
+                                        <% if (currentUser && currentUser._id.toString()===post.user.toString()) { %>
+                                            <div class="profile-cell-actions">
+                                                <a href="/posts/<%= post._id %>/edit" class="cell-btn-edit">Edit</a>
+                                                <form action="/posts/<%= post._id %>?_method=DELETE" method="POST"
+                                                    onsubmit="return confirm('Delete this post?')">
+                                                    <button type="submit" class="cell-btn-delete">Delete</button>
+                                                </form>
+                                            </div>
+                                            <% } %>
+                                    </div>
+                                </div>
+                                <% }) %>
+                        </div>
+                        <% } %>
+
+            </div>
+        </main>
+
+        <%- include('partials/footer') %>
