@@ -1,3 +1,7 @@
+<img width="1913" height="916" alt="image" src="https://github.com/user-attachments/assets/c2d8f501-abc0-4502-9b67-004a1692880d" />
+<img width="1917" height="964" alt="Screenshot 2026-02-21 120654" src="https://github.com/user-attachments/assets/15c57743-401e-470f-8d16-a3241e83ffbf" />
+
+
 # Pixgram — Mini Instagram Clone
 
 A full-stack, responsive "Mini Instagram" web application built to allow users to register, log in, share photos with captions, and view a paginated feed of posts from the community.
